@@ -21,11 +21,7 @@ function App() {
     }
   }
   fetchCategory()
-  })
-
-  useEffect(() => {
-    
-  }, []);
+  }, [])
 
   const decodeString = (str) => {
     const textArea = document.createElement("textarea");
@@ -36,16 +32,6 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // axios.get('https://opentdb.com/api.php?amount=10')
-    // .then(res => {
-    //   console.log(res.data)
-    // })
-
-    // fetch('https://opentdb.com/api.php?amount=10', { method: "GET"})
-    //   .then(res => res.json())
-    //   .then(data => console.log(data.results))
-    //   .catch(error => console.error('Error fetching data:', error))
-
     const fetchData = async () => {
       try {
         const amount = amountEl.current.value;
@@ -54,7 +40,6 @@ function App() {
 
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
 
         setFlashcards(
           data.results.map((questionItem, index) => {
@@ -66,7 +51,7 @@ function App() {
             return {
               id: `${index}-${Date.now()}`,
               question: decodeString(questionItem.question),
-              answer: answer,
+              answer: decodeString(answer),
               options: options.sort(() => Math.random() - 0.5),
             };
           })
@@ -75,19 +60,6 @@ function App() {
         console.error("Error fetching data:", error);
       }
     };
-
-    // const list = [
-    //   { first: "Rob", last: "Hitt", age: 46 },
-    //   { first: "Ana", last: "Troitskaia", age: 39 },
-    //   { first: "Brendan", last: "Walter", age: 38 },
-    //   { first: "Ashli", last: "Stockton", age: 45},
-    // ];
-
-    // const sortedList = list.sort((a,b) => {
-    //   return b.last - a.last;
-    // });
-
-    // console.log(sortedList);
 
     fetchData();
   }
